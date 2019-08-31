@@ -1,7 +1,7 @@
 package com.nongped.rtc
 
-import org.scalactic.{ Equality, TolerantNumerics }
-import org.scalatest.{ Matchers, WordSpec }
+import org.scalactic.{Equality, TolerantNumerics}
+import org.scalatest.{Matchers, WordSpec}
 
 class RetCalcTest extends WordSpec with Matchers {
   implicit val doubleEquality: Equality[Double] =
@@ -9,25 +9,32 @@ class RetCalcTest extends WordSpec with Matchers {
 
   "RetCalc.futureCapital" should {
     "calculate the amount of savings I will have in n months" in {
-      val actual = RetCalc.futureCapital(
-        interestRate = 0.04 / 12,
-        nbOfMonths = 25 * 12,
-        netIncome = 3000,
-        currentExpense = 2000,
-        initialCapital = 10000)
+      val actual = RetCalc
+        .futureCapital(
+          FixedReturns(0.04),
+          nbOfMonths = 25 * 12,
+          netIncome = 3000,
+          currentExpense = 2000,
+          initialCapital = 10000
+        )
+        .right
+        .value
 
       val expected = 541267.1990
-
       actual should ===(expected)
     }
 
     "calculate how much savings will be left after having taken a pension for n months" in {
-      val actual = RetCalc.futureCapital(
-        interestRate = 0.04 / 12,
-        nbOfMonths = 40 * 12,
-        netIncome = 0,
-        currentExpense = 2000,
-        initialCapital = 541267.1990)
+      val actual = RetCalc
+        .futureCapital(
+          FixedReturns(0.04),
+          nbOfMonths = 40 * 12,
+          netIncome = 0,
+          currentExpense = 2000,
+          initialCapital = 541267.1990
+        )
+        .right
+        .value
       val expected = 309867.53176
       actual should ===(expected)
     }
@@ -40,7 +47,8 @@ class RetCalcTest extends WordSpec with Matchers {
         nbOfMonthsInRetirement = 40 * 12,
         netIncome = 3000,
         currentExpenses = 2000,
-        initialCapital = 10000)
+        initialCapital = 10000
+      )
       val expected = 23 * 12 + 1
       actual should ===(expected)
     }
@@ -51,7 +59,8 @@ class RetCalcTest extends WordSpec with Matchers {
         nbOfMonthsInRetirement = 40 * 12,
         netIncome = 3000,
         currentExpenses = 2999,
-        initialCapital = 0)
+        initialCapital = 0
+      )
       val expected = 8280
       actual should ===(expected)
     }
@@ -62,7 +71,8 @@ class RetCalcTest extends WordSpec with Matchers {
         nbOfMonthsInRetirement = 40 * 12,
         netIncome = 1000,
         currentExpenses = 2000,
-        initialCapital = 10000)
+        initialCapital = 10000
+      )
       actual should ===(Int.MaxValue)
     }
   }
@@ -75,7 +85,8 @@ class RetCalcTest extends WordSpec with Matchers {
         nbOfMonthsInRetirement = 40 * 12,
         netIncome = 3000,
         currentExpenses = 2000,
-        initialCapital = 10000)
+        initialCapital = 10000
+      )
 
       capitalAtRetirement should ===(541267.1990)
       capitalAfterDeath should ===(309867.5316)
