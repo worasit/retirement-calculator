@@ -37,7 +37,6 @@ object Returns {
       (scala.math.pow(product, 1.0 / rs.size) - 1) * 12
     case OffsetReturns(rs, _) => annualizedTotalReturn(rs)
   }
-
 }
 
 case class FixedReturns(annualRate: Double) extends Returns
