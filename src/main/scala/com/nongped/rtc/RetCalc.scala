@@ -10,7 +10,7 @@ object RetCalc {
       nbOfMonthsInRetirement: Int,
       netIncome: Int,
       currentExpenses: Int,
-      initialCapital: Int) = {
+      initialCapital: Int): Int = {
     @tailrec
     def loop(months: Int): Int = {
       val (_, capitalAfterDeath) = simulatePlan(
