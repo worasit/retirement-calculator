@@ -1,0 +1,26 @@
+language: scala
+jdk: openjdk8
+scala:
+  - 2.12.8
+
+cache:
+  bundler: true
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt
+
+before_cache:
+  # Cleanup the cached directories to avoid unnecessary cache updates
+  - rm -fv $HOME/.ivy2/.sbt.ivy.lock
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
+
+env:
+  global:
+    - CODECOV_TOKEN="1ae26604-31ab-4c56-802d-0e8b0a2dbb23"
+
+script:
+  - sbt clean coverage test coverageReport
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
