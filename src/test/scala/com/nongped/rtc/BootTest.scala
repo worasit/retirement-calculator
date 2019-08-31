@@ -1,6 +1,6 @@
 package com.nongped.rtc
 
-import org.scalatest.{ Matchers, WordSpec }
+import org.scalatest.{Matchers, WordSpec}
 
 class BootTest extends WordSpec with Matchers {
   "Boot" should {
